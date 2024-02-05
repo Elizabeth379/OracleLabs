@@ -1,0 +1,3 @@
+CREATE USER c##Admin IDENTIFIED BY admin123;
+grant connect to c##Admin;
+grant all privileges to c##Admin;

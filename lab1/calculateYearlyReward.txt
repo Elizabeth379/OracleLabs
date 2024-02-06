@@ -1,0 +1,34 @@
+CREATE OR REPLACE FUNCTION CalculateYearlyReward(
+    p_monthly_salary IN NUMBER,
+    p_annual_bonus_rate IN NUMBER
+) RETURN NUMBER IS
+    v_annual_bonus_rate NUMBER;
+    v_yearly_reward NUMBER;
+BEGIN
+    -- Проверяем, что входные данные корректны
+    IF p_monthly_salary <= 0 OR p_annual_bonus_rate < 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Некорректные входные данные');
+    END IF;
+
+    -- Преобразуем процент годовых премиальных к дробному значению
+    v_annual_bonus_rate := p_annual_bonus_rate / 100;
+
+    -- Вычисляем общее вознаграждение за год
+    v_yearly_reward := (1 + v_annual_bonus_rate) * 12 * p_monthly_salary;
+
+    RETURN v_yearly_reward;
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN NULL;
+END;
+/
+
+DECLARE
+    v_monthly_salary NUMBER := 5000; -- Месячная зарплата
+    v_annual_bonus_rate NUMBER := 10; -- Процент годовых премиальных
+    v_yearly_reward NUMBER; -- Общее вознаграждение за год
+BEGIN
+    v_yearly_reward := CalculateYearlyReward(v_monthly_salary, v_annual_bonus_rate);
+    DBMS_OUTPUT.PUT_LINE('Общее вознаграждение за год: ' || v_yearly_reward);
+END;
+/

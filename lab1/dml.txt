@@ -1,0 +1,69 @@
+CREATE OR REPLACE PROCEDURE InsertData(
+    p_id IN NUMBER,
+    p_val IN NUMBER
+)
+IS
+BEGIN
+    INSERT INTO MyTable(id, val) VALUES (p_id, p_val);
+    COMMIT; -- Фиксация изменений
+    DBMS_OUTPUT.PUT_LINE('Данные успешно вставлены.');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Ошибка при вставке данных: ' || SQLERRM);
+        ROLLBACK; -- Откат изменений в случае ошибки
+END;
+/
+
+CREATE OR REPLACE PROCEDURE UpdateData(
+    p_id IN NUMBER,
+    p_new_val IN NUMBER
+)
+IS
+BEGIN
+    UPDATE MyTable SET val = p_new_val WHERE id = p_id;
+    COMMIT; -- Фиксация изменений
+    DBMS_OUTPUT.PUT_LINE('Данные успешно обновлены.');
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Запись с ID ' || p_id || ' не найдена.');
+        ROLLBACK; -- Откат изменений в случае ошибки
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Ошибка при обновлении данных: ' || SQLERRM);
+        ROLLBACK; -- Откат изменений в случае ошибки
+END;
+/
+
+CREATE OR REPLACE PROCEDURE DeleteData(
+    p_id IN NUMBER
+)
+IS
+BEGIN
+    DELETE FROM MyTable WHERE id = p_id;
+    COMMIT; -- Фиксация изменений
+    DBMS_OUTPUT.PUT_LINE('Данные успешно удалены.');
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Запись с ID ' || p_id || ' не найдена.');
+        ROLLBACK; -- Откат изменений в случае ошибки
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Ошибка при удалении данных: ' || SQLERRM);
+        ROLLBACK; -- Откат изменений в случае ошибки
+END;
+/
+
+SELECT id, val FROM MYTABLE WHERE id=10;
+
+BEGIN
+    UpdateData(10, 200);
+END;
+/
+
+BEGIN
+    DeleteData(10);
+END;
+/
+
+BEGIN
+    InsertData(10, 100);
+END;
+/

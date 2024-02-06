@@ -2,5 +2,6 @@ DROP TABLE MyTable;
 
 CREATE TABLE MyTable (
     id NUMBER,
-    val NUMBER
+    val NUMBER,
+    CONSTRAINT my_table_pk_key PRIMARY KEY (id)
 );

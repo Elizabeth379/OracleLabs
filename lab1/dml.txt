@@ -1,18 +1,19 @@
 CREATE OR REPLACE PROCEDURE InsertData(
-    p_id IN NUMBER,
     p_val IN NUMBER
 )
 IS
 BEGIN
-    INSERT INTO MyTable(id, val) VALUES (p_id, p_val);
-    COMMIT; -- Фиксация изменений
+    INSERT INTO MyTable(val) VALUES (p_val);
+    COMMIT;
     DBMS_OUTPUT.PUT_LINE('Данные успешно вставлены.');
 EXCEPTION
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Ошибка при вставке данных: ' || SQLERRM);
-        ROLLBACK; -- Откат изменений в случае ошибки
+        ROLLBACK;
 END;
 /
+
+
 
 CREATE OR REPLACE PROCEDURE UpdateData(
     p_id IN NUMBER,
@@ -53,6 +54,8 @@ END;
 
 SELECT id, val FROM MYTABLE WHERE id=10;
 
+SELECT id, val FROM MYTABLE;
+
 BEGIN
     UpdateData(10, 200);
 END;
@@ -64,6 +67,6 @@ END;
 /
 
 BEGIN
-    InsertData(10, 100);
+    InsertData(100);
 END;
 /

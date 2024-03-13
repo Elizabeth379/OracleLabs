@@ -9,7 +9,7 @@
       <jdbc-url>jdbc:oracle:thin:@localhost:1521:XE</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="@localhost [2]" uuid="40134745-ef13-47dc-8a76-30a3ff7f9731">
+    <data-source source="LOCAL" name="@localhost [2]" uuid="cc6a6277-5567-42ef-a404-61073448414b">
       <driver-ref>oracle.19</driver-ref>
       <synchronize>true</synchronize>
       <auto-commit>false</auto-commit>
